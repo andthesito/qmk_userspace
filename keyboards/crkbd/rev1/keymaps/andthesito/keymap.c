@@ -41,7 +41,8 @@ enum custom_keycodes {
 // Tap Dance declarations
 enum {
     TD_EXLM_IEXL,
-	TD_QUES_IQUE
+	TD_QUES_IQUE,
+    TD_DQUOT_QUOT
 };
 
 // Tap Dance definitions
@@ -49,6 +50,7 @@ tap_dance_action_t tap_dance_actions[] = {
     // Tap once for Escape, twice for Caps Lock
     [TD_EXLM_IEXL] = ACTION_TAP_DANCE_DOUBLE(ES_EXLM, ES_IEXL),
     [TD_QUES_IQUE] = ACTION_TAP_DANCE_DOUBLE(ES_QUES, ES_IQUE),
+    [TD_DQUOT_QUOT] = ACTION_TAP_DANCE_DOUBLE(ES_DQUO, ES_QUOT),
 };
 
 
@@ -163,7 +165,7 @@ OSM(MOD_RALT),OSM(MOD_LALT),OSM(MOD_LGUI),OSM(MOD_LCTL),OSM(MOD_LSFT), _______, 
                                           _______, _______,  _______,      KC_ENT,   ES_0, ES_DOT
   ),
     [_SIMBOLOS] = LAYOUT_split_3x6_3(
-      KC_BSLS, TD(TD_EXLM_IEXL), ES_DQUO, ES_BULT,  ES_DLR, ES_PERC,             ES_AMPR,ES_SLSH, ES_LPRN, ES_RPRN,  ES_EQL, TD(TD_QUES_IQUE),
+      KC_BSLS, TD(TD_EXLM_IEXL), TD(TD_DQUOT_QUOT), ES_BULT,  ES_DLR, ES_PERC,             ES_AMPR,ES_SLSH, ES_LPRN, ES_RPRN,  ES_EQL, TD(TD_QUES_IQUE),
       ES_BSLS, ES_PIPE,   ES_AT, ES_HASH, ES_TILD, ES_EURO,                    ES_NOT, ES_LCBR, ES_RCBR, ES_LBRC, ES_RBRC, ES_GRV,
 ES_LABK,ES_RABK, XXXXXXX, TEAMS_CODE_WORD,  XXXXXXX, TEAMS_CODE_BLOCK,                      ES_IQUE, ES_CIRC, ES_QUOT, _______, _______, _______,
                                           _______, _______,  _______,   XXXXXXX, XXXXXXX, XXXXXXX
