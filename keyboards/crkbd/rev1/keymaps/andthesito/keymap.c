@@ -17,63 +17,193 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include QMK_KEYBOARD_H
+#include "keymap_spanish.h"
+
+enum crkbd_layers {
+    _QWERTY,
+    _NUMEROS,
+    _SIMBOLOS,
+    _MOVIMIENTO,
+    _RATON,
+    _FUNCT,
+    _MEDIA,
+    _ADJUST
+};
+
+enum custom_keycodes {
+    TEAMS_CODE_WORD = SAFE_RANGE,
+    TEAMS_CODE_BLOCK
+};
+
+
+#include "efectos_rgb.c"
+#include "pantalla_oled.c"
+// Tap Dance declarations
+enum {
+    TD_EXLM_IEXL,
+	TD_QUES_IQUE
+};
+
+// Tap Dance definitions
+tap_dance_action_t tap_dance_actions[] = {
+    // Tap once for Escape, twice for Caps Lock
+    [TD_EXLM_IEXL] = ACTION_TAP_DANCE_DOUBLE(ES_EXLM, ES_IEXL),
+    [TD_QUES_IQUE] = ACTION_TAP_DANCE_DOUBLE(ES_QUES, ES_IQUE),
+};
+
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case TEAMS_CODE_BLOCK:
+            if (record->event.pressed) {
+                SEND_STRING(SS_DOWN(X_LSFT)SS_DOWN(X_LALT)SS_DOWN(X_LGUI)SS_TAP(X_B)SS_UP(X_LGUI)SS_UP(X_LALT)SS_UP(X_LSFT));
+            }
+            return false; // Skip all further processing of this key
+        case TEAMS_CODE_WORD:
+            if (record->event.pressed) {
+                SEND_STRING(SS_DOWN(X_LSFT)SS_DOWN(X_LALT)SS_DOWN(X_LGUI)SS_TAP(X_C)SS_UP(X_LGUI)SS_UP(X_LALT)SS_UP(X_LSFT));
+            }
+            return false; // Skip all further processing of this key
+        case KC_COPY:
+            if (detected_host_os() == OS_MACOS) {
+                if (record->event.pressed) {
+                    SEND_STRING(SS_LGUI("c"));
+                }
+                return false; // Skip all further processing of this key
+            }
+        case KC_PASTE:
+            if (detected_host_os() == OS_MACOS) {
+                if (record->event.pressed) {
+                    SEND_STRING(SS_LGUI("v"));
+                }
+                return false; // Skip all further processing of this key
+            }
+        case KC_CUT:
+            if (detected_host_os() == OS_MACOS) {
+                if (record->event.pressed) {
+                    SEND_STRING(SS_LGUI("x"));
+                }
+                return false; // Skip all further processing of this key
+            }
+        case KC_UNDO:
+            if (detected_host_os() == OS_MACOS) {
+                if (record->event.pressed) {
+                    SEND_STRING(SS_LGUI("z"));
+                }
+                return false; // Skip all further processing of this key
+            }
+        case KC_AGAIN:
+            if (detected_host_os() == OS_MACOS) {
+                if (record->event.pressed) {
+                    SEND_STRING(SS_LGUI("Z"));
+                }
+                return false; // Skip all further processing of this key
+            }
+        case ES_MORD:
+            if (detected_host_os() == OS_MACOS) {
+                if (record->event.pressed) {
+                    register_code16(ES_MAC_MORD);
+                } else {
+                    unregister_code16(ES_MAC_MORD);
+                }
+                return false; // Skip all further processing of this key
+            }
+        case ES_LABK:
+            if (detected_host_os() == OS_MACOS) {
+                if (record->event.pressed) {
+                    register_code16(ES_MAC_LABK);
+                } else {
+                    unregister_code16(ES_MAC_LABK);
+                }
+                return false; // Skip all further processing of this key
+            }
+        case ES_RABK:
+            if (detected_host_os() == OS_MACOS) {
+                if (record->event.pressed) {
+                    register_code16(ES_MAC_RABK);
+                } else {
+                    unregister_code16(ES_MAC_RABK);
+                }
+                return false; // Skip all further processing of this key
+            }
+        case ES_TILD:
+            if (detected_host_os() == OS_MACOS) {
+                if (record->event.pressed) {
+                    register_code16(ES_MAC_TILD);
+                } else {
+                    unregister_code16(ES_MAC_TILD);
+                }
+                return false; // Skip all further processing of this key
+            }
+        case ES_BSLS:
+            if (detected_host_os() == OS_MACOS) {
+                if (record->event.pressed) {
+                    register_code16(ES_MAC_BSLS);
+                } else {
+                    unregister_code16(ES_MAC_BSLS);
+                }
+                return false; // Skip all further processing of this key
+            }
+        default:
+            return true; // Process all other keycodes normally
+    }
+}
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    [0] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSPC,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  KC_ESC,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI,   MO(1),  KC_SPC,     KC_ENT,   MO(2), KC_RALT
-                                      //`--------------------------'  `--------------------------'
-
+    [_QWERTY] = LAYOUT_split_3x6_3(
+       ES_MORD,   ES_Q,    ES_W,    ES_E,    ES_R,    ES_T,                        ES_Y,    ES_U,    ES_I,    ES_O,   ES_P,  KC_BSPC,
+LSFT_T(KC_CAPS), LALT_T(ES_A), LGUI_T(ES_S), RCTL_T(ES_D), RSFT_T(ES_F),  ES_G,    ES_H,    RSFT_T(ES_J), RCTL_T(ES_K), LGUI_T(ES_L), LALT_T(ES_NTIL), RSFT_T(ES_ACUT),
+     ES_LABK,    ES_Z,    ES_X,    ES_C,    ES_V,    ES_B,                         ES_N,    ES_M, ES_COMM,  ES_DOT, ES_MINS, ES_TILD,
+           LT(_RATON,KC_DEL),   LT(_NUMEROS,KC_TAB),  LT(_MOVIMIENTO,KC_ESC),           LT(_FUNCT,KC_ENT),  LT(_SIMBOLOS,KC_SPC), LT(_MEDIA,KC_BSPC)
   ),
-
-    [1] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TAB,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_BSPC,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI, _______,  KC_SPC,     KC_ENT,   MO(3), KC_RALT
-                                      //`--------------------------'  `--------------------------'
+    [_NUMEROS] = LAYOUT_split_3x6_3(
+      _______,    ES_1,    ES_2,    ES_3,    ES_4, ES_5,                            ES_6,    ES_7,    ES_8,    ES_9,    ES_0, _______,
+OSM(MOD_RALT),OSM(MOD_LALT),OSM(MOD_LGUI),OSM(MOD_LCTL),OSM(MOD_LSFT), _______,  ES_ASTR,    ES_4,    ES_5,    ES_6, ES_SLSH, XXXXXXX,
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      ES_PLUS,    ES_1,    ES_2,    ES_3, ES_MINS, _______,
+                                          _______, _______,  _______,      KC_ENT,   ES_0, ES_DOT
   ),
-
-    [2] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TAB, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_MINS,  KC_EQL, KC_LBRC, KC_RBRC, KC_BSLS,  KC_GRV,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE, KC_TILD,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI,   MO(3),  KC_SPC,     KC_ENT, _______, KC_RALT
-                                      //`--------------------------'  `--------------------------'
+    [_SIMBOLOS] = LAYOUT_split_3x6_3(
+      KC_BSLS, TD(TD_EXLM_IEXL), ES_DQUO, ES_BULT,  ES_DLR, ES_PERC,             ES_AMPR,ES_SLSH, ES_LPRN, ES_RPRN,  ES_EQL, TD(TD_QUES_IQUE),
+      ES_BSLS, ES_PIPE,   ES_AT, ES_HASH, ES_TILD, ES_EURO,                    ES_NOT, ES_LCBR, ES_RCBR, ES_LBRC, ES_RBRC, ES_GRV,
+ES_LABK,ES_RABK, XXXXXXX, TEAMS_CODE_WORD,  XXXXXXX, TEAMS_CODE_BLOCK,                      ES_IQUE, ES_CIRC, ES_QUOT, _______, _______, _______,
+                                          _______, _______,  _______,   XXXXXXX, XXXXXXX, XXXXXXX
   ),
-
-    [3] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+    /*[_SIMBOLOS] = LAYOUT_split_3x6_3(
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                                          _______, _______,  _______,   XXXXXXX, XXXXXXX, XXXXXXX
+  ),*/
+    [_MOVIMIENTO] = LAYOUT_split_3x6_3(
+      _______, KC_UNDO,  KC_CUT, KC_COPY,KC_PASTE,KC_AGAIN,                      KC_AGAIN,KC_PASTE, KC_COPY,  KC_CUT, KC_UNDO, _______, 
+OSM(MOD_RALT),OSM(MOD_LALT),OSM(MOD_LGUI),OSM(MOD_LCTL),OSM(MOD_LSFT), _______,                     KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, _______, _______,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     KC_HOME, KC_PGDN, KC_PGUP,  KC_END, _______, _______,
+                                          _______, _______,  XXXXXXX,   LCTL(KC_INS), LSFT(KC_INS), KC_INS 
+  ),
+    [_RATON] = LAYOUT_split_3x6_3(
+      _______, KC_UNDO,  KC_CUT, KC_COPY,KC_PASTE,KC_AGAIN,                    KC_AGAIN,KC_PASTE, KC_COPY,  KC_CUT, KC_UNDO, _______, 
+      _______, _______, _______, _______, _______, _______,                     MS_LEFT, MS_DOWN,   MS_UP, MS_RGHT, _______, _______,
+      _______, _______, MS_ACL0, MS_ACL1, MS_ACL2, _______,                     KC_HOME, KC_PGDN, KC_PGUP,  KC_END, _______, _______,
+                                          _______, _______,  _______,   MS_BTN1, MS_BTN2, MS_BTN3
+  ),
+    [_FUNCT] = LAYOUT_split_3x6_3(
+      XXXXXXX,   KC_F9,   KC_F10, KC_F11,  KC_F12, XXXXXXX,                     KC_AGAIN,KC_PASTE, KC_COPY,  KC_CUT, KC_UNDO, _______, 
+      XXXXXXX,   KC_F1,   KC_F2,   KC_F3,   KC_F4, XXXXXXX,                 _______,OSM(MOD_LSFT),OSM(MOD_LCTL),OSM(MOD_LGUI),OSM(MOD_LALT),OSM(MOD_RALT),
+      XXXXXXX,   KC_F5,   KC_F6,   KC_F7,   KC_F8, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                                      MO(_ADJUST), KC_APP,  KC_PSCR,   XXXXXXX, XXXXXXX, XXXXXXX
+  ),
+    [_MEDIA] = LAYOUT_split_3x6_3(
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_MPRV, KC_MNXT, XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, KC_MUTE, KC_MPLY, KC_MSEL,                      XXXXXXX, KC_VOLD, KC_VOLU, XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                                          XXXXXXX, XXXXXXX,  XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX
+  ),
+    [_ADJUST] = LAYOUT_split_3x6_3(
       QK_BOOT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       RM_TOGG, RM_HUEU, RM_SATU, RM_VALU, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       RM_NEXT, RM_HUED, RM_SATD, RM_VALD, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI, _______,  KC_SPC,     KC_ENT, _______, KC_RALT
-                                      //`--------------------------'  `--------------------------'
+                                          XXXXXXX, XXXXXXX,  XXXXXXX,     XXXXXXX, XXXXXXX, XXXXXXX
   )
 };
 
-#ifdef ENCODER_MAP_ENABLE
-const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
-  [0] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MPRV, KC_MNXT), ENCODER_CCW_CW(RM_VALD, RM_VALU), ENCODER_CCW_CW(KC_RGHT, KC_LEFT), },
-  [1] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MPRV, KC_MNXT), ENCODER_CCW_CW(RM_VALD, RM_VALU), ENCODER_CCW_CW(KC_RGHT, KC_LEFT), },
-  [2] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MPRV, KC_MNXT), ENCODER_CCW_CW(RM_VALD, RM_VALU), ENCODER_CCW_CW(KC_RGHT, KC_LEFT), },
-  [3] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MPRV, KC_MNXT), ENCODER_CCW_CW(RM_VALD, RM_VALU), ENCODER_CCW_CW(KC_RGHT, KC_LEFT), },
-};
-#endif
+
