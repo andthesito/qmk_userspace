@@ -56,51 +56,100 @@ tap_dance_action_t tap_dance_actions[] = {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case TEAMS_CODE_BLOCK:
-            if (record->event.pressed) {
-                SEND_STRING(SS_DOWN(X_LSFT)SS_DOWN(X_LALT)SS_DOWN(X_LGUI)SS_TAP(X_B)SS_UP(X_LGUI)SS_UP(X_LALT)SS_UP(X_LSFT));
-            }
-            return false; // Skip all further processing of this key
-        case TEAMS_CODE_WORD:
-            if (record->event.pressed) {
-                SEND_STRING(SS_DOWN(X_LSFT)SS_DOWN(X_LALT)SS_DOWN(X_LGUI)SS_TAP(X_C)SS_UP(X_LGUI)SS_UP(X_LALT)SS_UP(X_LSFT));
-            }
-            return false; // Skip all further processing of this key
-        case KC_COPY:
-            if (detected_host_os() == OS_MACOS) {
-                if (record->event.pressed) {
-                    SEND_STRING(SS_LGUI("c"));
-                }
-                return false; // Skip all further processing of this key
-            }
-        case KC_PASTE:
-            if (detected_host_os() == OS_MACOS) {
-                if (record->event.pressed) {
-                    SEND_STRING(SS_LGUI("v"));
-                }
-                return false; // Skip all further processing of this key
-            }
-        case KC_CUT:
-            if (detected_host_os() == OS_MACOS) {
-                if (record->event.pressed) {
-                    SEND_STRING(SS_LGUI("x"));
-                }
-                return false; // Skip all further processing of this key
-            }
-        case KC_UNDO:
-            if (detected_host_os() == OS_MACOS) {
-                if (record->event.pressed) {
-                    SEND_STRING(SS_LGUI("z"));
-                }
-                return false; // Skip all further processing of this key
-            }
-        case KC_AGAIN:
-            if (detected_host_os() == OS_MACOS) {
-                if (record->event.pressed) {
-                    SEND_STRING(SS_LGUI("Z"));
-                }
-                return false; // Skip all further processing of this key
-            }
+		case TEAMS_CODE_BLOCK:
+			if (record->event.pressed) {
+				switch (detected_host_os()) {
+					case OS_MACOS:
+							// macOS: Cmd+Alt+Shift+B
+						tap_code16(LSFT(LALT(LGUI(KC_B))));
+						break;
+					case OS_WINDOWS:
+					case OS_LINUX:
+					default:
+						// Win/Linux: Ctrl+Alt+Shift+B
+						tap_code16(LSFT(LALT(LCTL(KC_B))));
+						break;
+				}
+			}
+			return false;
+		case TEAMS_CODE_WORD:
+			if (record->event.pressed) {
+				switch (detected_host_os()) {
+					case OS_MACOS:
+						// macOS: Cmd+Alt+Shift+C
+						tap_code16(LSFT(LALT(LGUI(KC_C))));
+						break;
+					case OS_WINDOWS:
+					case OS_LINUX:
+					default:
+						// Win/Linux: Ctrl+Alt+Shift+C
+						tap_code16(LSFT(LALT(LCTL(KC_C))));
+						break;
+				}
+			}
+			return false;
+		case KC_COPY:
+			if (record->event.pressed) {
+				switch (detected_host_os()) {
+					case OS_MACOS:
+						tap_code16(LGUI(KC_C));   // Cmd+C
+						break;
+					case OS_WINDOWS:
+					case OS_LINUX:
+					default:
+						tap_code16(LCTL(KC_INS)); // Ctrl+Insert (universal copy)
+						break;
+				}
+			}
+			return false;
+		case KC_PASTE:
+			if (record->event.pressed) {
+				switch (detected_host_os()) {
+					case OS_MACOS:
+						tap_code16(LGUI(KC_V));    // Cmd+V
+						break;
+					case OS_WINDOWS:
+					case OS_LINUX:
+					default:
+						tap_code16(LSFT(KC_INS));   // Shift+Insert (universal paste)
+						break;
+				}
+			}
+			return false;
+		case KC_CUT:
+			if (record->event.pressed) {
+				switch (detected_host_os()) {
+					case OS_MACOS:
+						tap_code16(LGUI(KC_X));     // Cmd+X
+						break;
+					case OS_WINDOWS:
+					case OS_LINUX:
+					default:
+						tap_code16(LSFT(KC_DEL));   // Shift+Delete (universal cut)
+						break;
+				}
+			}
+			return false;
+		case KC_UNDO:
+			if (record->event.pressed) {
+				switch (detected_host_os()) {
+					case OS_MACOS:   tap_code16(LGUI(KC_Z)); break;
+					case OS_WINDOWS:
+					case OS_LINUX:
+					default:         tap_code16(LCTL(KC_Z)); break;
+				}
+			}
+			return false;
+		case KC_AGAIN:
+			if (record->event.pressed) {
+				switch (detected_host_os()) {
+					case OS_MACOS:   tap_code16(LSFT(LGUI(KC_Z))); break; // Shift+Cmd+Z
+					case OS_WINDOWS:
+					case OS_LINUX:
+					default:         tap_code16(LCTL(KC_Y)); break;
+				}
+			}
+			return false;
         case ES_MORD:
             if (detected_host_os() == OS_MACOS) {
                 if (record->event.pressed) {
