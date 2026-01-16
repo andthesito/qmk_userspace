@@ -214,10 +214,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                    LT(_RATON,KC_DEL), LT(_NUMEROS,KC_TAB), LT(_MOVIMIENTO,KC_ESC),          LT(_FUNCT,KC_ENT), LT(_SIMBOLOS,KC_SPC), LT(_MEDIA,KC_BSPC)
   ),
     [_NUMEROS] = LAYOUT_split_3x6_3(
-    _______,       ES_1,          ES_2,          ES_3,          ES_4,          ES_5,            ES_6,    ES_7, ES_8, ES_9, ES_0,    _______,
-    OSM(MOD_RALT), OSM(MOD_LALT), OSM(MOD_LGUI), OSM(MOD_LCTL), OSM(MOD_LSFT), _______,         ES_ASTR, ES_4, ES_5, ES_6, ES_SLSH, XXXXXXX,
-     _______,      XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,         ES_PLUS, ES_1, ES_2, ES_3, ES_MINS, _______,
-                                                 _______,       _______,       _______,         KC_ENT,  ES_0, ES_DOT
+    XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,         ES_ASTR, ES_7, ES_8, ES_9, ES_SLSH, XXXXXXX,
+    OSM(MOD_RALT), OSM(MOD_LALT), OSM(MOD_LGUI), OSM(MOD_LCTL), OSM(MOD_LSFT), XXXXXXX,         ES_PLUS, ES_4, ES_5, ES_6, ES_MINS, ES_COMM,
+    XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,         XXXXXXX, ES_1, ES_2, ES_3, ES_DOT,  XXXXXXX,
+                                                 _______,       _______,       _______,         KC_ENT,  ES_0, XXXXXXX
   ),
     [_SIMBOLOS] = LAYOUT_split_3x6_3(
     KC_BSLS, TD(TD_EXLM_IEXL), TD(TD_DQUOT_QUOT), ES_BULT,          ES_DLR,  ES_PERC,                 ES_AMPR, ES_SLSH, ES_LPRN, ES_RPRN, ES_EQL,  TD(TD_QUES_IQUE),
