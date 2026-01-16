@@ -201,35 +201,35 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+    /*[_EJEMPLO] = LAYOUT_split_3x6_3(
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                                _______, _______,  _______,         XXXXXXX, XXXXXXX, XXXXXXX
+  ),*/
     [_QWERTY] = LAYOUT_split_3x6_3(
-       ES_MORD,   ES_Q,    ES_W,    ES_E,    ES_R,    ES_T,                        ES_Y,    ES_U,    ES_I,    ES_O,   ES_P,  KC_BSPC,
-LSFT_T(KC_CAPS), LALT_T(ES_A), LGUI_T(ES_S), RCTL_T(ES_D), RSFT_T(ES_F),  ES_G,    ES_H,    RSFT_T(ES_J), RCTL_T(ES_K), LGUI_T(ES_L), LALT_T(ES_NTIL), RSFT_T(ES_ACUT),
-     ES_LABK,    ES_Z,    ES_X,    ES_C,    ES_V,    ES_B,                         ES_N,    ES_M, ES_COMM,  ES_DOT, ES_MINS, ES_TILD,
-           LT(_RATON,KC_DEL),   LT(_NUMEROS,KC_TAB),  LT(_MOVIMIENTO,KC_ESC),           LT(_FUNCT,KC_ENT),  LT(_SIMBOLOS,KC_SPC), LT(_MEDIA,KC_BSPC)
+    ES_MORD,         ES_Q,         ES_W,         ES_E,         ES_R,         ES_T,          ES_Y,    ES_U,          ES_I,         ES_O,         ES_P,            KC_BSPC,
+    LSFT_T(KC_CAPS), LALT_T(ES_A), LGUI_T(ES_S), RCTL_T(ES_D), RSFT_T(ES_F), ES_G,          ES_H,    RSFT_T(ES_J),  RCTL_T(ES_K), LGUI_T(ES_L), LALT_T(ES_NTIL), RSFT_T(ES_ACUT),
+    ES_LABK,         ES_Z,         ES_X,         ES_C,         ES_V,         ES_B,          ES_N,    ES_M,          ES_COMM,      ES_DOT,       ES_MINS,         ES_TILD,
+                   LT(_RATON,KC_DEL), LT(_NUMEROS,KC_TAB), LT(_MOVIMIENTO,KC_ESC),          LT(_FUNCT,KC_ENT), LT(_SIMBOLOS,KC_SPC), LT(_MEDIA,KC_BSPC)
   ),
     [_NUMEROS] = LAYOUT_split_3x6_3(
-      _______,    ES_1,    ES_2,    ES_3,    ES_4, ES_5,                            ES_6,    ES_7,    ES_8,    ES_9,    ES_0, _______,
-OSM(MOD_RALT),OSM(MOD_LALT),OSM(MOD_LGUI),OSM(MOD_LCTL),OSM(MOD_LSFT), _______,  ES_ASTR,    ES_4,    ES_5,    ES_6, ES_SLSH, XXXXXXX,
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      ES_PLUS,    ES_1,    ES_2,    ES_3, ES_MINS, _______,
-                                          _______, _______,  _______,      KC_ENT,   ES_0, ES_DOT
+    _______,       ES_1,          ES_2,          ES_3,          ES_4,          ES_5,            ES_6,    ES_7, ES_8, ES_9, ES_0,    _______,
+    OSM(MOD_RALT), OSM(MOD_LALT), OSM(MOD_LGUI), OSM(MOD_LCTL), OSM(MOD_LSFT), _______,         ES_ASTR, ES_4, ES_5, ES_6, ES_SLSH, XXXXXXX,
+     _______,      XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,         ES_PLUS, ES_1, ES_2, ES_3, ES_MINS, _______,
+                                                 _______,       _______,       _______,         KC_ENT,  ES_0, ES_DOT
   ),
     [_SIMBOLOS] = LAYOUT_split_3x6_3(
-      KC_BSLS, TD(TD_EXLM_IEXL), TD(TD_DQUOT_QUOT), ES_BULT,  ES_DLR, ES_PERC,             ES_AMPR,ES_SLSH, ES_LPRN, ES_RPRN,  ES_EQL, TD(TD_QUES_IQUE),
-      ES_BSLS, ES_PIPE,   ES_AT, ES_HASH, ES_TILD, ES_EURO,                    ES_NOT, ES_LCBR, ES_RCBR, ES_LBRC, ES_RBRC, ES_GRV,
-ES_LABK,ES_RABK, XXXXXXX, TEAMS_CODE_WORD,  XXXXXXX, TEAMS_CODE_BLOCK,                      ES_IQUE, ES_CIRC, ES_QUOT, _______, _______, _______,
-                                          _______, _______,  _______,   XXXXXXX, XXXXXXX, XXXXXXX
+    KC_BSLS, TD(TD_EXLM_IEXL), TD(TD_DQUOT_QUOT), ES_BULT,          ES_DLR,  ES_PERC,                 ES_AMPR, ES_SLSH, ES_LPRN, ES_RPRN, ES_EQL,  TD(TD_QUES_IQUE),
+    ES_BSLS, ES_PIPE,          ES_AT,             ES_HASH,          ES_TILD, ES_EURO,                 ES_IQUE, ES_LCBR, ES_RCBR, ES_CIRC, ES_QUOT, ES_GRV,
+    ES_LABK, ES_RABK,          XXXXXXX,           TEAMS_CODE_WORD,  XXXXXXX, TEAMS_CODE_BLOCK,        ES_NOT,  ES_LBRC, ES_RBRC, _______, _______, _______,
+                                                                   _______, _______,  _______,        XXXXXXX, XXXXXXX, XXXXXXX
   ),
-    /*[_SIMBOLOS] = LAYOUT_split_3x6_3(
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                          _______, _______,  _______,   XXXXXXX, XXXXXXX, XXXXXXX
-  ),*/
     [_MOVIMIENTO] = LAYOUT_split_3x6_3(
-      _______, KC_UNDO,  KC_CUT, KC_COPY,KC_PASTE,KC_AGAIN,                      KC_AGAIN,KC_PASTE, KC_COPY,  KC_CUT, KC_UNDO, _______, 
-OSM(MOD_RALT),OSM(MOD_LALT),OSM(MOD_LGUI),OSM(MOD_LCTL),OSM(MOD_LSFT), _______,                     KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, _______, _______,
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     KC_HOME, KC_PGDN, KC_PGUP,  KC_END, _______, _______,
-                                          _______, _______,  XXXXXXX,   LCTL(KC_INS), LSFT(KC_INS), KC_INS 
+    _______,       KC_UNDO,       KC_CUT,        KC_COPY,       KC_PASTE,      KC_AGAIN,        KC_AGAIN, KC_PASTE, KC_COPY, KC_CUT,   KC_UNDO, _______, 
+    OSM(MOD_RALT), OSM(MOD_LALT), OSM(MOD_LGUI), OSM(MOD_LCTL), OSM(MOD_LSFT), _______,         KC_LEFT,  KC_DOWN,  KC_UP,   KC_RIGHT, _______, _______,
+    XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,         KC_HOME,  KC_PGDN,  KC_PGUP, KC_END,   _______, _______,
+                                                             _______, _______, XXXXXXX,         LCTL(KC_INS), LSFT(KC_INS), KC_INS 
   ),
     [_RATON] = LAYOUT_split_3x6_3(
       _______, KC_UNDO,  KC_CUT, KC_COPY,KC_PASTE,KC_AGAIN,                    KC_AGAIN,KC_PASTE, KC_COPY,  KC_CUT, KC_UNDO, _______, 
