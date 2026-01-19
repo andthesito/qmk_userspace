@@ -234,7 +234,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_RATON] = LAYOUT_split_3x6_3(
       _______, KC_UNDO,  KC_CUT, KC_COPY,KC_PASTE,KC_AGAIN,         KC_AGAIN, KC_PASTE, KC_COPY, KC_CUT,  KC_UNDO, _______, 
       _______, _______, _______, _______, _______, _______,         MS_LEFT,  MS_DOWN,  MS_UP,   MS_RGHT, _______, _______,
-      _______, _______, MS_ACL0, MS_ACL1, MS_ACL2, _______,         KC_HOME,  KC_PGDN,  KC_PGUP, KC_END,  _______, _______,
+      _______, _______, MS_ACL0, MS_ACL1, MS_ACL2, _______,         XXXXXXX,  MS_WHLD,  MS_WHLU, XXXXXXX,  _______, _______,
                                 _______, _______,  _______,         MS_BTN1,  MS_BTN2, MS_BTN3
   ),
     [_FUNCT] = LAYOUT_split_3x6_3(
