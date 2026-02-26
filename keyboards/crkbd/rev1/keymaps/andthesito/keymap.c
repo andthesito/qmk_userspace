@@ -56,6 +56,21 @@ tap_dance_action_t tap_dance_actions[] = {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
+        case KC_PSCR:
+            if (record->event.pressed) {
+                switch (detected_host_os()) {
+                    case OS_MACOS:
+                        tap_code16(LSFT(LGUI(KC_4))); // Captura de área en Mac
+                        return false;
+                    case OS_WINDOWS:
+                        tap_code16(LSFT(LGUI(KC_S))); // Snipping Tool en Windows
+                        return false;
+                    case OS_LINUX:
+                    default:
+                        return true;
+				}
+			}
+			return false;
 		case TEAMS_CODE_BLOCK:
 			if (record->event.pressed) {
 				switch (detected_host_os()) {
@@ -151,50 +166,27 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 			}
 			return false;
         case ES_MORD:
-            if (detected_host_os() == OS_MACOS) {
-                if (record->event.pressed) {
-                    register_code16(ES_MAC_MORD);
-                } else {
-                    unregister_code16(ES_MAC_MORD);
-                }
-                return false; // Skip all further processing of this key
-            }
         case ES_LABK:
-            if (detected_host_os() == OS_MACOS) {
-                if (record->event.pressed) {
-                    register_code16(ES_MAC_LABK);
-                } else {
-                    unregister_code16(ES_MAC_LABK);
-                }
-                return false; // Skip all further processing of this key
-            }
         case ES_RABK:
-            if (detected_host_os() == OS_MACOS) {
-                if (record->event.pressed) {
-                    register_code16(ES_MAC_RABK);
-                } else {
-                    unregister_code16(ES_MAC_RABK);
-                }
-                return false; // Skip all further processing of this key
-            }
         case ES_TILD:
-            if (detected_host_os() == OS_MACOS) {
-                if (record->event.pressed) {
-                    register_code16(ES_MAC_TILD);
-                } else {
-                    unregister_code16(ES_MAC_TILD);
-                }
-                return false; // Skip all further processing of this key
-            }
         case ES_BSLS:
             if (detected_host_os() == OS_MACOS) {
                 if (record->event.pressed) {
-                    register_code16(ES_MAC_BSLS);
+                    uint16_t mac_keycode = (keycode == ES_MORD) ? ES_MAC_MORD :
+                                         (keycode == ES_LABK) ? ES_MAC_LABK :
+                                         (keycode == ES_RABK) ? ES_MAC_RABK :
+                                         (keycode == ES_TILD) ? ES_MAC_TILD : ES_MAC_BSLS;
+                    register_code16(mac_keycode);
                 } else {
-                    unregister_code16(ES_MAC_BSLS);
+                    uint16_t mac_keycode = (keycode == ES_MORD) ? ES_MAC_MORD :
+                                         (keycode == ES_LABK) ? ES_MAC_LABK :
+                                         (keycode == ES_RABK) ? ES_MAC_RABK :
+                                         (keycode == ES_TILD) ? ES_MAC_TILD : ES_MAC_BSLS;
+                    unregister_code16(mac_keycode);
                 }
-                return false; // Skip all further processing of this key
+                return false;
             }
+            return true;
         default:
             return true; // Process all other keycodes normally
     }
@@ -256,5 +248,4 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX
   )
 };
-
 
