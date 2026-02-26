@@ -136,3 +136,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 #define NO_MUSIC_MODE
+
+#define DEBOUNCE 5
