@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define SPLIT_TRANSPORT_MIRROR
 #define SPLIT_LAYER_STATE_ENABLE
 #define SPLIT_MODS_ENABLE
+#define SPLIT_USB_DETECT
 
 //Tapping
 #define ONESHOT_TAP_TOGGLE 2
